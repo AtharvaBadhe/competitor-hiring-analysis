@@ -11,7 +11,7 @@
 - **Python** + **Pandas** – data wrangling
 - **Streamlit** – interactive dashboard
 - **Plotly** – visualizations (bar charts, heatmaps)
-- **Scikit-learn (optional)** – clustering and predictive modeling
+- **Scikit-learn** – clustering and predictive modeling
 - **TF-IDF** – keyword extraction via NLP
 
 ---
