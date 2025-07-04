@@ -1,12 +1,13 @@
-pandas==2.2.2
-spacy==3.7.6
-en-core-web-sm==3.7.1
-scikit-learn==1.5.2
-prophet==1.1.5
-matplotlib==3.9.2
-seaborn==0.13.2
-streamlit==1.38.0
-plotly==5.24.1
-nbformat==5.10.4
-numpy==1.26.4
-scipy==1.14.1
+    pandas==2.2.2
+    spacy==3.7.6
+    scikit-learn==1.5.2
+    prophet==1.1.5
+    matplotlib==3.9.2
+    seaborn==0.13.2
+    streamlit==1.38.0
+    plotly==5.24.1
+    nbformat==5.10.4
+    numpy==1.26.4
+    scipy==1.14.1
+    jupyter==1.1.1
+    ipython==8.27.0
