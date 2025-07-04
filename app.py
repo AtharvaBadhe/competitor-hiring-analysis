@@ -120,12 +120,13 @@ st.plotly_chart(cluster_fig, use_container_width=True)
 st.header("Strategic Insights")
 st.markdown("""
 Based on the analysis:
-- **CXC Global** (APAC Sales Growth, Platform Innovators): Strengthen tech and leadership offerings to compete in APAC.
-- **Deel** (Broad hiring): Monitor their expansion in Sales/Marketing and Payroll; counter with tailored enterprise solutions.
-- **Multiplier** (Compliance & Operations): Enhance compliance features for LATAM to challenge their cross-border focus.
-- **People 2.0** (Compliance & Ops Stability): Differentiate with advanced tech integrations to outpace their backend focus.
-- **Remote** (Client Enablement Focus): Prioritize client support and integration features to compete in service quality.
+- **CXC Global** (APAC Sales Growth, Platform Innovators): Focused hiring in APAC across technical and leadership roles suggests a regional tech hub strategy. Strengthen platform integrations, localized support, and engineering presence to stay competitive.
+- **Deel** (Broad hiring across functions): Aggressive hiring in Sales, Marketing, and Payroll reflects global enterprise scaling. Counter with tailored onboarding flows, automation, and trust-focused compliance solutions.
+- **Multiplier** (Compliance & Cross-border Operations): High emphasis on payroll and compliance roles indicates specialization in cross-border delivery. Enhance LATAM-specific features and promote unified platform experience to challenge them.
+- **People 2.0** (Backend Ops Stability): Hiring patterns suggest operational maturity and backend stability. Differentiate with advanced automation, client analytics, and seamless integration options.
+- **Remote** (Client Enablement & Global Support): Hiring signals a remote-first support and enablement model. Prioritize localized onboarding, integration flexibility, and support SLAs to compete in service quality.
 """)
+
 
 # Footer
 st.markdown("---")
