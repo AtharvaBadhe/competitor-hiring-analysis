@@ -1,0 +1,64 @@
+# Competitor Hiring Intelligence Dashboard
+
+ A strategic analytics dashboard that uncovers hiring trends, regional expansion, and role priorities across five global HR tech competitors. This dashboard helps sales, product, and strategy teams make better decisions by interpreting hiring data as business signals.
+
+> **Live Demo**: [Streamlit App](https://your-streamlit-link.com)  
+> *(Replace the above with your actual Streamlit URL)*
+
+---
+
+## Tech Stack
+
+- **Python** + **Pandas** – data wrangling
+- **Streamlit** – interactive dashboard
+- **Plotly** – visualizations (bar charts, heatmaps)
+- **Scikit-learn (optional)** – clustering and predictive modeling
+- **TF-IDF** – keyword extraction via NLP
+
+---
+
+##  Files
+
+| File | Purpose |
+|------|---------|
+| `app.py` | Main dashboard logic |
+| `data/clustered_jobs.csv` | Cleaned and tagged job data |
+| `data/keyword_summary.csv` | TF-IDF keyword scores by company |
+| `competitor_hiring_analysis.ipynb` | Exploratory data analysis notebook (temporal, NLP, modeling) |
+
+---
+
+## How to Run Locally
+
+1. **Clone this repo**:
+```bash
+git clone https://github.com/AtharvaBadhe/competitor-hiring-analysis.git
+cd competitor-hiring-analysis
+
+```
+2. **Create a virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+
+```
+3. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+
+```
+4. **Run Streamlit app**
+```bash
+streamlit run streamlit_app.py
+
+```
+## Author
+
+**Atharva Badhe**  
+Final Year B.E. – AI & DS  
+Mumbai University | July 2025  
+
+Feel free to connect or reach out on [LinkedIn]([https://linkedin.com/in/your-profile](https://www.linkedin.com/in/atharva-badhe/))  
+
+
+
