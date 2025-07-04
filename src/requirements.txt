@@ -2,7 +2,7 @@
 pandas==2.2.2
 spacy==3.7.6
 scikit-learn==1.5.2
-#prophet==1.1.5
+prophet==1.1.5
 matplotlib==3.9.2
 seaborn==0.13.2
 streamlit==1.38.0
