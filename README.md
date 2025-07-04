@@ -2,7 +2,7 @@
 
  A strategic analytics dashboard that uncovers hiring trends, regional expansion, and role priorities across five global HR tech competitors. This dashboard helps sales, product, and strategy teams make better decisions by interpreting hiring data as business signals.
 
-> **Live Demo**: [Streamlit App](https://your-streamlit-link.com)  
+> **Live Demo**: [Streamlit App](https://competitor-hiring-analysis-nvidydztarwnskysxtaur3.streamlit.app/)  
 > *(Replace the above with your actual Streamlit URL)*
 
 ---
@@ -58,7 +58,7 @@ streamlit run streamlit_app.py
 Final Year B.E. – AI & DS  
 Mumbai University | July 2025  
 
-Feel free to connect or reach out on [LinkedIn]([https://linkedin.com/in/your-profile](https://www.linkedin.com/in/atharva-badhe/))  
+Feel free to connect or reach out on [LinkedIn](https://www.linkedin.com/in/atharva-badhe/)  
 
 
 
