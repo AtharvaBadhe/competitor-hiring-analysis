@@ -17,8 +17,8 @@ st.title("Competitor Hiring Intelligence Dashboard")
 # Load data
 @st.cache_data
 def load_data():
-    csv_path = "D:\compititor_hiring_analysis\data\output\clustered_jobs.csv"
-    keyword_path = "D:\compititor_hiring_analysis\data\output\keyword_summary.csv"
+    csv_path = "data\output\clustered_jobs.csv"
+    keyword_path = "data\output\keyword_summary.csv"
     if not os.path.exists(csv_path) or not os.path.exists(keyword_path):
         st.error(f"Data files not found at {csv_path} or {keyword_path}. Ensure 'clustered_jobs.csv' and 'keyword_summary.csv' are in the 'data' directory.")
         return None, None
