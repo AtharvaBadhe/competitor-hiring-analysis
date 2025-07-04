@@ -52,16 +52,16 @@ if df is not None:
     # Role counts by competitor
     st.header("Competitor Hiring Volume")
     role_counts = filtered_df.groupby('competitor')['count'].sum().reset_index()
-    fig1 = px.bar(role_counts, x='count', y='competitor', title="🚀 Top Hiring Competitors", color='competitor')
+    fig1 = px.bar(role_counts, x='count', y='competitor', title=" Top Hiring Competitors", color='competitor')
     st.plotly_chart(fig1, use_container_width=True)
-    st.markdown("🔍 **What This Means**: Deel’s 227 roles signal intense enterprise competition; CXC’s APAC tech focus offers niche opportunities.")
+    st.markdown(" **What This Means**: Deel’s 227 roles signal intense enterprise competition; CXC’s APAC tech focus offers niche opportunities.")
 
     # Department distribution
     st.header("Department Distribution")
     dept_counts = filtered_df.groupby('department')['count'].sum().reset_index()
-    fig2 = px.bar(dept_counts, x='count', y='department', title="🛠 Department Hiring Trends", color='department')
+    fig2 = px.bar(dept_counts, x='count', y='department', title=" Department Hiring Trends", color='department')
     st.plotly_chart(fig2, use_container_width=True)
-    st.markdown("🔍 **What This Means**: High Sales/Payroll hiring (Deel) suggests market expansion; emphasize compliance in pitches.")
+    st.markdown(" **What This Means**: High Sales/Payroll hiring (Deel) suggests market expansion; emphasize compliance in pitches.")
 
     # Heatmap
     st.header("Hiring by Region and Department")
@@ -69,23 +69,23 @@ if df is not None:
     fig3 = go.Figure(data=go.Heatmap(z=pivot.values, x=[f"{r}-{d}" for r, d in pivot.columns], y=pivot.index, colorscale='Blues'))
     fig3.update_layout(title="🌍 Hiring Volume by Competitor, Region, and Department")
     st.plotly_chart(fig3, use_container_width=True)
-    st.markdown("🔍 **What This Means**: Deel’s Global Payroll/Sales focus requires enterprise-grade solutions; CXC’s APAC Tech hiring demands integration expertise.")
+    st.markdown(" **What This Means**: Deel’s Global Payroll/Sales focus requires enterprise-grade solutions; CXC’s APAC Tech hiring demands integration expertise.")
 
     # Top keywords
     st.header("Top Keywords by Competitor")
     if keyword_df is not None:
         fig4 = px.bar(keyword_df.melt(id_vars='competitor', var_name='keyword', value_name='tfidf_score'), 
                       x='competitor', y='tfidf_score', color='keyword', barmode='group')
-        fig4.update_layout(title='📜 Top Keywords by Competitor', xaxis_title='Competitor', yaxis_title='TF-IDF Score')
+        fig4.update_layout(title=' Top Keywords by Competitor', xaxis_title='Competitor', yaxis_title='TF-IDF Score')
         st.plotly_chart(fig4, use_container_width=True)
     else:
         st.write("Top Keywords: compliance, payroll, integration, management, operations")
         st.warning("Keyword data not found. Run the notebook to generate 'keyword_summary.csv'.")
-    st.markdown("🔍 **What This Means**: Deel’s ‘compliance’ focus suggests EOR priority; Multiplier’s ‘EOR’ emphasis targets LATAM.")
+    st.markdown(" **What This Means**: Deel’s ‘compliance’ focus suggests EOR priority; Multiplier’s ‘EOR’ emphasis targets LATAM.")
 
     # Clusters
     st.header("Hiring Theme Clusters")
     cluster_counts = filtered_df.groupby(['competitor', 'cluster_name'])['count'].sum().reset_index()
     fig5 = px.bar(cluster_counts, x='competitor', y='count', color='cluster_name', title="🤖 Competitor Hiring Themes")
     st.plotly_chart(fig5, use_container_width=True)
-    st.markdown("🔍 **What This Means**: ‘Platform Innovators’ (Deel, Multiplier) focus on tech/EOR; compete with innovative features.")
+    st.markdown(" **What This Means**: ‘Platform Innovators’ (Deel, Multiplier) focus on tech/EOR; compete with innovative features.")
