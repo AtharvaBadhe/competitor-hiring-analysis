@@ -6,7 +6,7 @@
     seaborn==0.13.2
     streamlit==1.38.0
     plotly==5.24.1
-    #nbformat==5.10.4
+    nbformat==5.10.4
     numpy==1.26.4
     scipy==1.14.1
     jupyter==1.1.1
