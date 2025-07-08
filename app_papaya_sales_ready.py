@@ -17,7 +17,7 @@ Based on the analysis:
 - **Multiplier** (Compliance & Cross-border Operations): High emphasis on payroll and compliance roles indicates specialization in cross-border delivery. Enhance LATAM-specific features and promote unified platform experience to challenge them.
 - **People 2.0** (Backend Ops Stability): Hiring patterns suggest operational maturity and backend stability. Differentiate with advanced automation, client analytics, and seamless integration options.
 - **Remote** (Client Enablement & Global Support): Hiring signals a remote-first support and enablement model. Prioritize localized onboarding, integration flexibility, and support SLAs to compete in service quality.
-"""")
+""")
 
 # Load data
 @st.cache_data
