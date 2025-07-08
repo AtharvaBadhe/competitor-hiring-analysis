@@ -118,7 +118,7 @@ st.markdown("""
 - **What They’re Doing**: Backend-heavy roles and light hiring suggest delivery stability, not innovation.
 - **Why It Matters**: Likely to appeal to clients needing reliability, not speed or integration.
 - **How Papaya Can Win**: Differentiate with faster go-lives, customer analytics, and transparent platform maturity.
-"""")
+""")
 
 # Footer
 st.markdown("---")
