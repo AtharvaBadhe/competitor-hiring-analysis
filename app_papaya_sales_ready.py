@@ -22,7 +22,7 @@ It answers key questions like:
 # Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv("clustered_jobs.csv")
+    return pd.read_csv("data/clustered_jobs.csv")
 
 df = load_data()
 
