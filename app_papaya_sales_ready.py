@@ -5,19 +5,19 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Page configuration
-st.set_page_config(page_title="Competitor Hiring Insights for Papaya Sales Team", layout="wide")
+st.set_page_config(page_title="Papaya Global - Competitor Hiring Dashboard", layout="wide")
 
-# Title and Introduction
+# Title and executive summary
 st.title("Competitor Hiring Insights – Papaya Sales Enablement Dashboard")
-st.markdown("""
-This dashboard is designed for **Papaya's Sales Team** to understand competitor hiring signals and gain a clear strategic edge.
 
-It answers key questions like:
-- Who is hiring the most?
-- What kinds of roles are they focusing on?
-- Where are they expanding?
-- What does it mean for our sales strategy?
-""")
+st.markdown("""
+Based on the analysis:
+- **CXC Global** (APAC Sales Growth, Platform Innovators): Focused hiring in APAC across technical and leadership roles suggests a regional tech hub strategy. Strengthen platform integrations, localized support, and engineering presence to stay competitive.
+- **Deel** (Broad hiring across functions): Aggressive hiring in Sales, Marketing, and Payroll reflects global enterprise scaling. Counter with tailored onboarding flows, automation, and trust-focused compliance solutions.
+- **Multiplier** (Compliance & Cross-border Operations): High emphasis on payroll and compliance roles indicates specialization in cross-border delivery. Enhance LATAM-specific features and promote unified platform experience to challenge them.
+- **People 2.0** (Backend Ops Stability): Hiring patterns suggest operational maturity and backend stability. Differentiate with advanced automation, client analytics, and seamless integration options.
+- **Remote** (Client Enablement & Global Support): Hiring signals a remote-first support and enablement model. Prioritize localized onboarding, integration flexibility, and support SLAs to compete in service quality.
+"""")
 
 # Load data
 @st.cache_data
@@ -49,25 +49,25 @@ volume_fig = px.bar(
 st.plotly_chart(volume_fig, use_container_width=True)
 
 st.markdown("""
-- **Deel** is scaling aggressively with 227 roles globally – especially in Sales and Payroll.
-- **CXC Global** is regionally focused, mostly hiring in APAC tech.
-- **Remote** and **Multiplier** show more targeted, specialized hiring.
-- **People 2.0** is stable, backend-heavy.
+- Deel’s high volume shows aggressive expansion across core functions—this gives them speed in enterprise sales cycles.
+- CXC’s smaller count but technical APAC hiring is strategic and efficient—less noise, more precision.
+- Remote and Multiplier show more focused plays in client support and compliance respectively.
+- People 2.0 seems to focus on stable delivery, not expansion.
 
-**💡 What Papaya Sales Should Do:** Focus on accounts where Deel is active and pitch faster deployment, localized compliance, and strong client service.
-""")
+💡 **Sales Tip:** Where Deel scales fast, Papaya should pitch faster time-to-value. Against CXC, stress plug-and-play integrations.
+"""")
 
-# Section: Hiring by Department
+# Section: Department Hiring
 st.header("🏢 What Roles Are They Prioritizing?")
 dept_fig = px.bar(
     filtered_df.groupby("department")["count"].sum().reset_index(),
     x="department", y="count",
     labels={"count": "Number of Roles", "department": "Department"},
-    title="Department-wise Hiring"
+    title="Department-wise Hiring Across Competitors"
 )
 st.plotly_chart(dept_fig, use_container_width=True)
 
-# Section: Region x Department Heatmap
+# Section: Regional Heatmap
 st.header("🌍 Where Are They Expanding?")
 heatmap_data = filtered_df.pivot_table(values='count', index='region', columns='department', aggfunc='sum', fill_value=0)
 heatmap_fig = go.Figure(data=go.Heatmap(
@@ -86,38 +86,39 @@ cluster_fig = px.bar(
 )
 st.plotly_chart(cluster_fig, use_container_width=True)
 
-# Section: Competitor-wise Sales Insights
-st.header("🎯 Sales Playbook – How to Counter Competitors")
+# Sales-focused competitor breakdown
+st.header("🎯 Sales Playbook – Countering Each Competitor")
+
 st.markdown("""
 ### Deel
-- **What They're Doing**: Hiring across 227 roles globally, focusing on Payroll and Sales.
-- **Why It Matters**: They're going after enterprise deals and scaling fast.
-- **How Papaya Should Counter**: Emphasize onboarding speed, local compliance depth, and easy integrations.
+- **What They’re Doing**: Hiring 227 roles—mostly Sales and Payroll—suggests they’re scaling globally with enterprise clients.
+- **Why It Matters**: Deel will likely enter deals with promises of global coverage and massive reach.
+- **How Papaya Can Win**: Stress our speed to onboard, ability to localize faster, and offer hands-on compliance partnership.
 
 ---
 ### CXC Global
-- **What They're Doing**: Hiring mainly in APAC for Tech and Strategy roles.
-- **Why It Matters**: They're trying to build a delivery hub.
-- **How Papaya Should Counter**: Pitch APAC-readiness, integrations, and shorter implementation cycles.
+- **What They’re Doing**: Focused hiring in APAC across tech and leadership signals a product-driven regional expansion.
+- **Why It Matters**: Expect them to appear in APAC RFPs, especially where companies want technical ownership.
+- **How Papaya Can Win**: Push integration ease, API flexibility, and full compliance visibility in APAC.
 
 ---
 ### Remote
-- **What They're Doing**: Hiring in Support and Enablement roles.
-- **Why It Matters**: They’re focused on CX and post-sale success.
-- **How Papaya Should Counter**: Emphasize your customer success team and stronger in-country support.
+- **What They’re Doing**: Focused hiring in Support and Sales—building client enablement and CX teams.
+- **Why It Matters**: Expect them to promise strong onboarding and global service quality.
+- **How Papaya Can Win**: Show superior SLA structure, in-country teams, and CX metrics.
 
 ---
 ### Multiplier
-- **What They're Doing**: Targeting compliance and payroll in LATAM and SEA.
-- **Why It Matters**: They’re positioning as compliance-first in emerging markets.
-- **How Papaya Should Counter**: Highlight your tax automation, localized regulatory coverage, and partner ecosystem.
+- **What They’re Doing**: Heavy hiring in compliance and payroll; targeting cross-border capabilities, especially in LATAM.
+- **Why It Matters**: Expect them to dominate small enterprise deals in emerging markets.
+- **How Papaya Can Win**: Emphasize automation in tax compliance, ease of scale, and Latin America case studies.
 
 ---
 ### People 2.0
-- **What They're Doing**: Light hiring focused on backend operations.
-- **Why It Matters**: They’re stable but slower moving.
-- **How Papaya Should Counter**: Win with agility, integrations, and analytics dashboards.
-""")
+- **What They’re Doing**: Backend-heavy roles and light hiring suggest delivery stability, not innovation.
+- **Why It Matters**: Likely to appeal to clients needing reliability, not speed or integration.
+- **How Papaya Can Win**: Differentiate with faster go-lives, customer analytics, and transparent platform maturity.
+"""")
 
 # Footer
 st.markdown("---")
