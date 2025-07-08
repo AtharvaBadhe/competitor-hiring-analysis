@@ -21,11 +21,11 @@ Based on the analysis:
 # Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv("data/clustered_jobs.csv")
+    return pd.read_csv("clustered_jobs.csv")
 
 df = load_data()
 
-# Filters (kept for internal use)
+# Filters
 st.sidebar.header("Filters")
 competitor_filter = st.sidebar.multiselect("Select Competitors", options=df["competitor"].unique(), default=df["competitor"].unique())
 department_filter = st.sidebar.multiselect("Select Departments", options=df["department"].unique(), default=df["department"].unique())
@@ -37,33 +37,28 @@ filtered_df = df[
     (df["region"].isin(region_filter))
 ]
 
-# Hiring volume
-st.header("📈 Which Competitors Are Growing Fast?")
-vol_fig = px.bar(filtered_df.groupby("competitor")["count"].sum().reset_index(),
-                 x="competitor", y="count")
+# Charts
+st.header(" Which Competitors Are Growing Fast?")
+vol_fig = px.bar(filtered_df.groupby("competitor")["count"].sum().reset_index(), x="competitor", y="count")
 st.plotly_chart(vol_fig, use_container_width=True)
 
-# Department distribution
-st.header("🏢 What Roles Are They Prioritizing?")
-dept_fig = px.bar(filtered_df.groupby("department")["count"].sum().reset_index(),
-                  x="department", y="count")
+st.header(" What Roles Are They Prioritizing?")
+dept_fig = px.bar(filtered_df.groupby("department")["count"].sum().reset_index(), x="department", y="count")
 st.plotly_chart(dept_fig, use_container_width=True)
 
-# Heatmap region x department
-st.header("🌍 Where Are They Expanding?")
+st.header(" Where Are They Expanding?")
 heat_data = filtered_df.pivot_table(values="count", index="region", columns="department", aggfunc="sum", fill_value=0)
 heatmap = go.Figure(data=go.Heatmap(z=heat_data.values, x=heat_data.columns, y=heat_data.index, colorscale="Viridis"))
 heatmap.update_layout(xaxis_title="Department", yaxis_title="Region")
 st.plotly_chart(heatmap, use_container_width=True)
 
-# Role clusters
-st.header("🧠 What Kind of Teams Are They Building?")
+st.header(" What Kind of Teams Are They Building?")
 cluster_fig = px.bar(filtered_df.groupby(["competitor", "cluster_name"])["count"].sum().reset_index(),
                      x="competitor", y="count", color="cluster_name", barmode="group")
 st.plotly_chart(cluster_fig, use_container_width=True)
 
-# Expanded Sales Playbook Section
-st.header("🎯 Sales Playbook – How Papaya Can Win")
+# Sales Playbook with "If X then Y" logic
+st.header(" Sales Playbook – How Papaya Can Win")
 
 st.markdown("""
 ### Deel
@@ -73,6 +68,7 @@ st.markdown("""
   1. Pitch our faster onboarding timeline — we're ready in weeks, not months.
   2. Emphasize our local compliance team presence and trusted integrations.
   3. Offer our client support differentiator: response time + hands-on implementation.
+  - *Example: If Deel is hiring more Sales & Payroll in EMEA, then Papaya should target CFOs in those regions with speed-to-value demos and tax automation highlights.*
 
 ---
 ### CXC Global
@@ -82,6 +78,7 @@ st.markdown("""
   1. Lead with our plug-and-play integrations for APAC systems.
   2. Offer APAC case studies to show delivery confidence.
   3. Promise short roll-out cycles, API support, and real-time platform visibility.
+  - *Example: If CXC is hiring APAC engineers and leaders, then Papaya should highlight how quickly we integrate into local ERPs and scale across countries.*
 
 ---
 ### Remote
@@ -91,6 +88,7 @@ st.markdown("""
   1. Share CX metrics: response time, resolution rate.
   2. Promote SLAs, onboarding surveys, and NPS benchmarks.
   3. Highlight our local support teams and multilingual capability.
+  - *Example: If Remote is expanding their support team in EMEA, then Papaya should pitch our 24/7 multilingual helpdesk and proven onboarding playbooks.*
 
 ---
 ### Multiplier
@@ -100,6 +98,7 @@ st.markdown("""
   1. Show automation in tax compliance & filings.
   2. Highlight LATAM onboarding success stories.
   3. Bundle services (payroll + HR + compliance) under one SLA.
+  - *Example: If Multiplier is hiring for LATAM compliance, then Papaya should proactively offer region-specific ROI calculators and onboarding guarantees.*
 
 ---
 ### People 2.0
@@ -109,6 +108,7 @@ st.markdown("""
   1. Show time-to-live advantage and visual dashboards.
   2. Talk about end-user adoption and platform simplicity.
   3. Push new feature roadmap, analytics, and integration power.
+  - *Example: If People 2.0 is not investing in client experience, then Papaya should focus on platform design and quick wins that wow the end user.*
 """)
 
 # Footer
