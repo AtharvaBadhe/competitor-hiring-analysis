@@ -20,7 +20,7 @@ Based on the analysis:
 # Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv("dat/clustered_jobs.csv")
+    return pd.read_csv("data/clustered_jobs.csv")
 
 df = load_data()
 competitor_tabs = ["All", "Deel", "CXC Global", "Remote", "Multiplier", "People 2.0"]
