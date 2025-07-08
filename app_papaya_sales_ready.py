@@ -55,7 +55,7 @@ st.markdown("""
 - People 2.0 seems to focus on stable delivery, not expansion.
 
 💡 **Sales Tip:** Where Deel scales fast, Papaya should pitch faster time-to-value. Against CXC, stress plug-and-play integrations.
-"""")
+""")
 
 # Section: Department Hiring
 st.header("🏢 What Roles Are They Prioritizing?")
