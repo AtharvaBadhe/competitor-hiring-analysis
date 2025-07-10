@@ -381,7 +381,7 @@ def main():
     # Data refresh button
     if st.sidebar.button("🔄 Refresh Data"):
         st.cache_data.clear()
-        st.experimental_rerun()
+        st.rerun()
     
     # Load data
     with st.spinner("Loading Coinme analytics data..."):
