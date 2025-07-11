@@ -25,7 +25,7 @@ st.markdown("""
     .section-header {
         font-size: 1.8rem;
         font-weight: bold;
-        color: #2E4057;
+        color:#F0F8FF;
         margin-top: 2rem;
         margin-bottom: 1rem;
     }
@@ -37,15 +37,15 @@ st.markdown("""
         margin: 1rem 0;
     }
     .risk-high {
-        color: #D32F2F;
+        color: #191970;
         font-weight: bold;
     }
     .risk-medium {
-        color: #F57C00;
+        color: #191970;
         font-weight: bold;
     }
     .risk-low {
-        color: #388E3C;
+        color: #191970;
         font-weight: bold;
     }
 </style>
