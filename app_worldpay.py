@@ -108,7 +108,7 @@ if page == "Executive Summary":
     .metric-box {
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         border: 1px solid #e0e6ed;
-        border-radius: 12px;
+        border-radius: 15px;
         padding: 1.5rem;
         margin: 1rem 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
