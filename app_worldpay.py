@@ -3,9 +3,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import numpy as np
 
-# Configure page
+# Page configuration
 st.set_page_config(
     page_title="GTM Hiring Intelligence Dashboard",
     page_icon="📊",
@@ -13,224 +12,275 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for professional styling
+# Custom CSS for styling
 st.markdown("""
 <style>
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #1f77b4;
-        text-align: center;
-        margin-bottom: 0.5rem;
-    }
-    .sub-header {
-        font-size: 1.2rem;
-        color: #666;
+        color: #2E4057;
         text-align: center;
         margin-bottom: 2rem;
     }
-    .metric-card {
-        background: #f0f2f6;
+    .section-header {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2E4057;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    .metric-box {
+        background-color: #F8F9FA;
         padding: 1rem;
         border-radius: 0.5rem;
-        margin: 0.5rem 0;
+        border-left: 4px solid #2E4057;
+        margin: 1rem 0;
     }
     .risk-high {
-        background: #ffebee;
-        border-left: 4px solid #f44336;
+        color: #D32F2F;
+        font-weight: bold;
     }
     .risk-medium {
-        background: #fff3e0;
-        border-left: 4px solid #ff9800;
+        color: #F57C00;
+        font-weight: bold;
     }
     .risk-low {
-        background: #e8f5e8;
-        border-left: 4px solid #4caf50;
+        color: #388E3C;
+        font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<h1 class="main-header">GTM Hiring Intelligence Dashboard</h1>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Strategic Analysis of Competitor Hiring Patterns & GTM Opportunities</p>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">GTM Hiring Intelligence Dashboard</div>', unsafe_allow_html=True)
 
-# Load data
-@st.cache_data
-def load_competitor_data():
-    """Load competitor hiring and financial data"""
-    data = {
-        'Company': ['Alpha Corp', 'Beta Ltd', 'Gamma Inc', 'Delta Co', 'Epsilon LLC', 'Target Corp'],
-        'Open_Roles': [660, 224, 439, 131, 120, 218],
-        'Revenue_B': [16.0, 2.3, 20.5, 21.0, 0.358, 4.9],
-        'GTM_Roles': [96, 1, 0, 0, 15, 7],
-        'Product_Roles': [121, 9, 34, 7, 7, 0],
-        'Sales_Roles': [42, 20, 147, 44, 25, 106],
-        'Marketing_Roles': [49, 8, 5, 13, 4, 3],
-        'CS_Roles': [5, 0, 184, 6, 0, 9],
-        'Revenue_Finance_Roles': [15, 0, 0, 11, 23, 0],
-        'Threat_Score': [9.0, 8.5, 6.5, 7.0, 7.5, 0]
-    }
-    return pd.DataFrame(data)
-
-@st.cache_data
-def load_strategic_gaps():
-    """Load strategic gap analysis data"""
-    gaps = {
-        'Gap_Category': ['GTM Ops & Enablement', 'Product-Finance Sync', 'Region-Specific Scaling', 
-                        'Post-Sale Delivery', 'UX/Data-Led Growth', 'Compliance/Trust Product'],
-        'Competitor_Investment': ['High', 'High', 'Medium', 'High', 'Medium', 'Medium'],
-        'Target_Investment': ['Almost none', 'No alignment', 'Generic approach', 'Minimal', 'None', 'No visible hiring'],
-        'Risk_Level': ['High', 'High', 'Medium', 'High', 'Medium', 'Medium']
-    }
-    return pd.DataFrame(gaps)
-
-# Load data
-df_competitors = load_competitor_data()
-df_gaps = load_strategic_gaps()
-
-# Sidebar
-st.sidebar.header("Dashboard Navigation")
-view_option = st.sidebar.selectbox(
-    "Select Analysis View",
-    ["Executive Summary", "Competitor Analysis", "Strategic Gaps", "Threat Assessment", "Opportunities"]
+# Sidebar navigation
+st.sidebar.title("Navigation")
+page = st.sidebar.selectbox(
+    "Select Section",
+    ["Executive Summary", "Competitor Overview", "Hiring Breakdown", "Strategic Gaps", "Competitive Threats", "Opportunities"]
 )
 
-# Main content based on selection
-if view_option == "Executive Summary":
-    st.header("📈 Executive Summary")
+# Data preparation
+competitors_data = {
+    'Company': ['Stripe', 'Adyen', 'Fiserv', 'Square', 'Checkout.com', 'Target Company'],
+    'Open_Roles': [660, 224, 439, 131, 120, 218],
+    'Revenue_B': [16.0, 2.3, 20.5, 21.0, 0.358, 4.9],
+    'GTM_Focus': ['96 GTM roles', '1 GTM ops', 'GTM unclear', 'GTM-lite', 'GTM building', 'Sales-heavy'],
+    'Product_Expansion': ['Experimental ML, Terminal, Tax, Finance', 'Compliance, LATAM/EMEA growth', 'Focus on implementation & sales', 'Data science, design-led UX hiring', 'Data connectivity, growth PMs', 'No product/GTM hiring depth']
+}
+
+threat_scores = {
+    'Company': ['Stripe', 'Adyen', 'Fiserv', 'Square', 'Checkout.com'],
+    'Speed_to_Launch': [9, 6, 3, 8, 8],
+    'Market_Trust': [6, 10, 8, 8, 6],
+    'GTM_Coordination': [9, 4, 5, 4, 7],
+    'Post_Sale_Execution': [5, 9, 10, 6, 5],
+    'Threat_Score': [9.0, 8.5, 6.5, 7.0, 7.5]
+}
+
+strategic_gaps = {
+    'Strategic_Area': ['GTM Ops & Enablement', 'Product-Finance Sync', 'Region-Specific Scaling', 'Post-Sale Delivery', 'UX/Data-Led Growth', 'Compliance/Trust Product'],
+    'Competitors_Doing': ['Stripe, Checkout building full GTM stacks', 'Stripe embeds finance into product; Checkout builds pricing ops', 'Adyen + Square hire by region and local language', 'Fiserv over-hires for onboarding, Square builds PLG systems', 'Square hiring in design, PLG, analytics', 'Adyen builds KYC, regulated infra'],
+    'Target_Company_Doing': ['Almost none', 'No GTM-to-finance alignment', 'Target Company hires generic sales', 'Target Company has minimal CS/implementation', 'Target Company has no design, PLG, or insight hires', 'No visible hiring for regulated markets'],
+    'Risk_Level': ['High', 'High', 'Medium', 'High', 'Medium', 'Medium']
+}
+
+# Executive Summary Page
+if page == "Executive Summary":
+    st.markdown('<div class="section-header">Executive Summary</div>', unsafe_allow_html=True)
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.metric("Total Competitors Analyzed", "6", "")
+        st.markdown("""
+        <div class="metric-box">
+            <h3>Key Finding</h3>
+            <p>Target company is scaling sales aggressively but underinvesting in GTM coordination and post-sale infrastructure</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("Total Open Roles", f"{df_competitors['Open_Roles'].sum():,}", "")
+        st.markdown("""
+        <div class="metric-box">
+            <h3>Competitive Landscape</h3>
+            <p>Competitors are building GTM machines (Stripe, Checkout.com) or scaling regional/trust-based growth (Adyen)</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
-        st.metric("Avg Threat Score", f"{df_competitors['Threat_Score'].mean():.1f}", "")
-    with col4:
-        st.metric("High Risk Gaps", "4", "")
+        st.markdown("""
+        <div class="metric-box">
+            <h3>Strategic Risk</h3>
+            <p>Target company risks inefficient launches, misaligned revenue planning, and lower retention</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    st.markdown("---")
+    # Key Metrics
+    st.markdown('<div class="section-header">Key Metrics Overview</div>', unsafe_allow_html=True)
     
-    # Key insights
-    st.subheader("🎯 Key Strategic Insights")
+    df_competitors = pd.DataFrame(competitors_data)
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
-        **Critical Findings:**
-        - Target Corp is scaling sales aggressively but underinvesting in GTM coordination
-        - Competitors are building GTM machines while Target Corp focuses on volume
-        - Risk of inefficient launches and misaligned revenue planning
-        - 4 high-risk strategic gaps identified
-        """)
+        fig_roles = px.bar(df_competitors, x='Company', y='Open_Roles', 
+                          title='Open Roles by Company',
+                          color='Open_Roles',
+                          color_continuous_scale='Blues')
+        fig_roles.update_layout(showlegend=False)
+        st.plotly_chart(fig_roles, use_container_width=True)
     
     with col2:
-        st.markdown("""
-        **Immediate Actions Needed:**
-        - Build GTM coordination infrastructure
-        - Implement signal-led launch strategy
-        - Align Product, Sales, and Finance teams
-        - Develop region-specific GTM capabilities
-        """)
-    
-    # Revenue vs GTM Investment scatter plot
-    st.subheader("💰 Revenue vs GTM Investment Analysis")
-    
-    fig = px.scatter(df_competitors, 
-                    x='Revenue_B', 
-                    y='GTM_Roles',
-                    size='Open_Roles',
-                    color='Threat_Score',
-                    hover_data=['Company', 'Open_Roles'],
-                    labels={'Revenue_B': 'Revenue (Billions USD)', 'GTM_Roles': 'GTM Roles'},
-                    title="Revenue vs GTM Investment (Bubble size = Total Open Roles)")
-    
-    fig.update_layout(height=500)
-    st.plotly_chart(fig, use_container_width=True)
+        fig_revenue = px.bar(df_competitors, x='Company', y='Revenue_B', 
+                           title='Revenue (Billions USD) by Company',
+                           color='Revenue_B',
+                           color_continuous_scale='Greens')
+        fig_revenue.update_layout(showlegend=False)
+        st.plotly_chart(fig_revenue, use_container_width=True)
 
-elif view_option == "Competitor Analysis":
-    st.header("🏢 Competitor Analysis")
+# Competitor Overview Page
+elif page == "Competitor Overview":
+    st.markdown('<div class="section-header">Competitor Hiring Overview</div>', unsafe_allow_html=True)
     
-    # Company selection
-    selected_company = st.selectbox("Select Company for Detailed Analysis", df_competitors['Company'].tolist())
+    df_competitors = pd.DataFrame(competitors_data)
     
-    company_data = df_competitors[df_competitors['Company'] == selected_company].iloc[0]
+    # Display comprehensive competitor table
+    st.subheader("Comprehensive Competitor Analysis")
     
-    # Company overview
-    col1, col2, col3 = st.columns(3)
+    # Create a formatted dataframe for display
+    display_df = df_competitors.copy()
+    display_df['Revenue (B)'] = display_df['Revenue_B'].apply(lambda x: f"${x}B")
+    display_df = display_df[['Company', 'Open_Roles', 'Revenue (B)', 'GTM_Focus', 'Product_Expansion']]
+    display_df.columns = ['Company', 'Open Roles', 'Revenue', 'GTM Focus', 'Product Expansion Signals']
     
-    with col1:
-        st.metric("Open Roles", f"{company_data['Open_Roles']:,}")
-    with col2:
-        st.metric("Revenue (B)", f"${company_data['Revenue_B']:.1f}B")
-    with col3:
-        st.metric("Threat Score", f"{company_data['Threat_Score']:.1f}/10")
+    st.dataframe(display_df, use_container_width=True)
     
-    # Role distribution
-    st.subheader("📊 Role Distribution")
+    # GTM Focus Analysis
+    st.subheader("GTM Investment Analysis")
     
-    role_data = {
-        'Role_Type': ['Product', 'Sales', 'Marketing', 'GTM Ops', 'Customer Success', 'Revenue/Finance'],
-        'Count': [company_data['Product_Roles'], company_data['Sales_Roles'], 
-                 company_data['Marketing_Roles'], company_data['GTM_Roles'],
-                 company_data['CS_Roles'], company_data['Revenue_Finance_Roles']]
+    gtm_analysis = {
+        'Company': ['Stripe', 'Adyen', 'Fiserv', 'Square', 'Checkout.com', 'Target Company'],
+        'GTM_Investment_Level': ['High', 'Very Low', 'Unclear', 'Low', 'Building', 'Sales-Heavy'],
+        'GTM_Roles': [96, 1, 0, 0, 15, 7],
+        'Strategic_Focus': ['Experimental expansion', 'Regional compliance', 'Enterprise implementation', 'Design-led UX', 'Data connectivity', 'No depth']
     }
     
-    fig = px.bar(role_data, x='Role_Type', y='Count', 
-                title=f"Hiring Distribution - {selected_company}")
-    fig.update_layout(height=400)
-    st.plotly_chart(fig, use_container_width=True)
+    df_gtm = pd.DataFrame(gtm_analysis)
     
-    # Competitive comparison
-    st.subheader("🔍 Competitive Positioning")
+    fig_gtm = px.bar(df_gtm, x='Company', y='GTM_Roles', 
+                     title='GTM Roles by Company',
+                     color='GTM_Investment_Level',
+                     color_discrete_map={
+                         'High': '#2E4057',
+                         'Very Low': '#D32F2F',
+                         'Unclear': '#F57C00',
+                         'Low': '#FF5722',
+                         'Building': '#388E3C',
+                         'Sales-Heavy': '#1976D2'
+                     })
     
-    # Create comparison metrics
-    comparison_data = df_competitors.copy()
-    comparison_data['GTM_Efficiency'] = comparison_data['GTM_Roles'] / comparison_data['Open_Roles'] * 100
-    comparison_data['Revenue_per_Role'] = comparison_data['Revenue_B'] / comparison_data['Open_Roles'] * 1000
-    
-    fig = make_subplots(
-        rows=2, cols=2,
-        subplot_titles=('GTM Efficiency (%)', 'Revenue per Role (M)', 'Total Hiring Volume', 'Threat Score'),
-        specs=[[{"secondary_y": False}, {"secondary_y": False}],
-               [{"secondary_y": False}, {"secondary_y": False}]]
-    )
-    
-    # GTM Efficiency
-    fig.add_trace(
-        go.Bar(x=comparison_data['Company'], y=comparison_data['GTM_Efficiency'], 
-               name='GTM Efficiency'),
-        row=1, col=1
-    )
-    
-    # Revenue per Role
-    fig.add_trace(
-        go.Bar(x=comparison_data['Company'], y=comparison_data['Revenue_per_Role'], 
-               name='Revenue per Role'),
-        row=1, col=2
-    )
-    
-    # Total Roles
-    fig.add_trace(
-        go.Bar(x=comparison_data['Company'], y=comparison_data['Open_Roles'], 
-               name='Total Roles'),
-        row=2, col=1
-    )
-    
-    # Threat Score
-    fig.add_trace(
-        go.Bar(x=comparison_data['Company'], y=comparison_data['Threat_Score'], 
-               name='Threat Score'),
-        row=2, col=2
-    )
-    
-    fig.update_layout(height=600, showlegend=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig_gtm, use_container_width=True)
 
-elif view_option == "Strategic Gaps":
-    st.header("⚠️ Strategic Gap Analysis")
+# Hiring Breakdown Page
+elif page == "Hiring Breakdown":
+    st.markdown('<div class="section-header">Strategic Hiring Breakdown</div>', unsafe_allow_html=True)
+    
+    # Company selection
+    company_details = {
+        'Stripe': {
+            'Product': 121,
+            'Sales': 42,
+            'Marketing': 49,
+            'GTM Operations': 21,
+            'Customer Success': 5,
+            'Revenue/Finance': 15
+        },
+        'Adyen': {
+            'Product': 9,
+            'Sales': 20,
+            'Marketing': 8,
+            'GTM Operations': 1,
+            'Customer Success': 0,
+            'Revenue/Finance': 0
+        },
+        'Fiserv': {
+            'Product': 34,
+            'Sales': 147,
+            'Marketing': 5,
+            'GTM Operations': 0,
+            'Customer Success': 184,
+            'Revenue/Finance': 0
+        },
+        'Square': {
+            'Product': 7,
+            'Sales': 44,
+            'Marketing': 13,
+            'GTM Operations': 0,
+            'Customer Success': 6,
+            'Revenue/Finance': 11
+        },
+        'Checkout.com': {
+            'Product': 7,
+            'Sales': 35,
+            'Marketing': 4,
+            'GTM Operations': 8,
+            'Customer Success': 0,
+            'Revenue/Finance': 23
+        },
+        'Target Company': {
+            'Product': 0,
+            'Sales': 106,
+            'Marketing': 2,
+            'GTM Operations': 7,
+            'Customer Success': 9,
+            'Revenue/Finance': 0
+        }
+    }
+    
+    selected_company = st.selectbox("Select Company for Detailed Breakdown", list(company_details.keys()))
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Pie chart for selected company
+        company_data = company_details[selected_company]
+        fig_pie = px.pie(values=list(company_data.values()), names=list(company_data.keys()),
+                        title=f"{selected_company} - Hiring Distribution")
+        st.plotly_chart(fig_pie, use_container_width=True)
+    
+    with col2:
+        # Bar chart comparison
+        departments = list(company_details['Stripe'].keys())
+        companies = list(company_details.keys())
+        
+        dept_selected = st.selectbox("Select Department for Comparison", departments)
+        
+        dept_data = [company_details[company][dept_selected] for company in companies]
+        
+        fig_bar = px.bar(x=companies, y=dept_data,
+                        title=f"{dept_selected} Roles Across Companies")
+        st.plotly_chart(fig_bar, use_container_width=True)
+    
+    # Strategic insights
+    st.subheader("Strategic Insights")
+    
+    insights = {
+        'Stripe': "Innovation at Scale, Fractured GTM - Building experimental products with strong GTM coordination",
+        'Adyen': "Regionally Focused, Risk-Controlled Growth - Compliance-led roadmap with minimal GTM ops",
+        'Fiserv': "Enterprise-Heavy, Implementation First - Sales-led GTM with massive implementation focus",
+        'Square': "Design & Data-First, But Light on GTM Rigor - UX-focused with minimal GTM coordination",
+        'Checkout.com': "Lean, Data-First GTM Builder - Building GTM structures from scratch",
+        'Target Company': "Sales-First, Strategy-Later - Overindexed on sales without enablement infrastructure"
+    }
+    
+    st.info(insights[selected_company])
+
+# Strategic Gaps Page
+elif page == "Strategic Gaps":
+    st.markdown('<div class="section-header">Strategic Gaps Analysis</div>', unsafe_allow_html=True)
+    
+    df_gaps = pd.DataFrame(strategic_gaps)
     
     # Risk level distribution
     risk_counts = df_gaps['Risk_Level'].value_counts()
@@ -238,225 +288,177 @@ elif view_option == "Strategic Gaps":
     col1, col2 = st.columns(2)
     
     with col1:
-        fig = px.pie(values=risk_counts.values, names=risk_counts.index, 
-                    title="Risk Level Distribution")
-        st.plotly_chart(fig, use_container_width=True)
+        fig_risk = px.pie(values=risk_counts.values, names=risk_counts.index,
+                         title="Risk Level Distribution",
+                         color_discrete_map={'High': '#D32F2F', 'Medium': '#F57C00', 'Low': '#388E3C'})
+        st.plotly_chart(fig_risk, use_container_width=True)
     
     with col2:
-        st.subheader("📋 Gap Summary")
-        for risk in ['High', 'Medium', 'Low']:
-            count = risk_counts.get(risk, 0)
-            st.metric(f"{risk} Risk Gaps", count)
+        # Risk level by area
+        fig_bar_risk = px.bar(df_gaps, x='Strategic_Area', y=[1]*len(df_gaps),
+                             color='Risk_Level',
+                             title="Strategic Areas by Risk Level",
+                             color_discrete_map={'High': '#D32F2F', 'Medium': '#F57C00', 'Low': '#388E3C'})
+        fig_bar_risk.update_layout(xaxis_tickangle=-45)
+        st.plotly_chart(fig_bar_risk, use_container_width=True)
     
-    # Detailed gap analysis
-    st.subheader("🔍 Detailed Gap Analysis")
+    # Detailed gaps table
+    st.subheader("Detailed Strategic Gaps")
     
-    # Create gap severity matrix
-    gap_matrix = df_gaps.copy()
-    gap_matrix['Risk_Score'] = gap_matrix['Risk_Level'].map({'High': 3, 'Medium': 2, 'Low': 1})
-    
-    fig = px.bar(gap_matrix, x='Gap_Category', y='Risk_Score', 
-                color='Risk_Level',
-                title="Strategic Gap Risk Assessment",
-                labels={'Risk_Score': 'Risk Score (1-3)', 'Gap_Category': 'Strategic Area'})
-    
-    fig.update_layout(height=500, xaxis_tickangle=-45)
-    st.plotly_chart(fig, use_container_width=True)
-    
-    # Gap details table
-    st.subheader("📊 Gap Details")
-    
-    # Style the dataframe based on risk level
-    def highlight_risk(row):
-        if row['Risk_Level'] == 'High':
-            return ['background-color: #ffebee'] * len(row)
-        elif row['Risk_Level'] == 'Medium':
-            return ['background-color: #fff3e0'] * len(row)
-        else:
-            return ['background-color: #e8f5e8'] * len(row)
-    
-    styled_df = df_gaps.style.apply(highlight_risk, axis=1)
-    st.dataframe(styled_df, use_container_width=True)
+    for idx, row in df_gaps.iterrows():
+        with st.expander(f"{row['Strategic_Area']} - {row['Risk_Level']} Risk"):
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("**What Competitors Are Doing:**")
+                st.write(row['Competitors_Doing'])
+            
+            with col2:
+                st.markdown("**What Target Company Is Doing:**")
+                st.write(row['Target_Company_Doing'])
+            
+            # Risk level styling
+            risk_class = f"risk-{row['Risk_Level'].lower()}"
+            st.markdown(f'<p class="{risk_class}">Risk Level: {row["Risk_Level"]}</p>', unsafe_allow_html=True)
 
-elif view_option == "Threat Assessment":
-    st.header("🚨 Competitive Threat Assessment")
+# Competitive Threats Page
+elif page == "Competitive Threats":
+    st.markdown('<div class="section-header">Competitive Threat Analysis</div>', unsafe_allow_html=True)
+    
+    df_threats = pd.DataFrame(threat_scores)
     
     # Threat score visualization
-    threat_data = df_competitors[df_competitors['Company'] != 'Target Corp'].copy()
-    threat_data = threat_data.sort_values('Threat_Score', ascending=True)
+    fig_threat = px.bar(df_threats, x='Company', y='Threat_Score',
+                       title="Overall Threat Score by Competitor",
+                       color='Threat_Score',
+                       color_continuous_scale='Reds')
+    fig_threat.update_layout(showlegend=False)
+    st.plotly_chart(fig_threat, use_container_width=True)
     
-    fig = px.bar(threat_data, x='Threat_Score', y='Company', 
-                orientation='h',
-                color='Threat_Score',
-                title="Competitive Threat Ranking",
-                labels={'Threat_Score': 'Threat Score (0-10)'})
+    # Radar chart for competitor capabilities
+    st.subheader("Competitor Capabilities Radar")
     
-    fig.update_layout(height=400)
-    st.plotly_chart(fig, use_container_width=True)
+    selected_competitors = st.multiselect(
+        "Select Competitors to Compare",
+        df_threats['Company'].tolist(),
+        default=['Stripe', 'Adyen', 'Checkout.com']
+    )
     
-    # Threat matrix
-    st.subheader("🎯 Threat Matrix Analysis")
-    
-    # Create threat categories
-    threat_categories = {
-        'Alpha Corp': {'Speed': 'Very High', 'Trust': 'Medium', 'GTM': 'Strong', 'Post-Sale': 'Lean'},
-        'Beta Ltd': {'Speed': 'Moderate', 'Trust': 'Very High', 'GTM': 'Basic', 'Post-Sale': 'Strong'},
-        'Gamma Inc': {'Speed': 'Slow', 'Trust': 'High', 'GTM': 'Legacy', 'Post-Sale': 'Very Strong'},
-        'Delta Co': {'Speed': 'Fast', 'Trust': 'High (SMB)', 'GTM': 'Weak', 'Post-Sale': 'Self-serve'},
-        'Epsilon LLC': {'Speed': 'Fast', 'Trust': 'Medium', 'GTM': 'Building', 'Post-Sale': 'Unproven'}
-    }
-    
-    selected_threat = st.selectbox("Select Competitor for Threat Analysis", list(threat_categories.keys()))
-    
-    threat_profile = threat_categories[selected_threat]
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader(f"🔍 {selected_threat} Threat Profile")
-        for category, level in threat_profile.items():
-            st.markdown(f"**{category}**: {level}")
-    
-    with col2:
-        # Radar chart for threat dimensions
-        categories = list(threat_profile.keys())
-        values = [3 if 'Very High' in v else 2.5 if 'High' in v else 2 if 'Medium' in v else 1.5 if 'Moderate' in v else 1 for v in threat_profile.values()]
+    if selected_competitors:
+        fig_radar = go.Figure()
         
-        fig = go.Figure()
-        fig.add_trace(go.Scatterpolar(
-            r=values,
-            theta=categories,
-            fill='toself',
-            name=selected_threat
-        ))
+        categories = ['Speed_to_Launch', 'Market_Trust', 'GTM_Coordination', 'Post_Sale_Execution']
         
-        fig.update_layout(
+        for company in selected_competitors:
+            company_data = df_threats[df_threats['Company'] == company].iloc[0]
+            values = [company_data[cat] for cat in categories]
+            values.append(values[0])  # Close the radar chart
+            
+            fig_radar.add_trace(go.Scatterpolar(
+                r=values,
+                theta=categories + [categories[0]],
+                fill='toself',
+                name=company
+            ))
+        
+        fig_radar.update_layout(
             polar=dict(
                 radialaxis=dict(
                     visible=True,
-                    range=[0, 3]
+                    range=[0, 10]
                 )),
             showlegend=True,
-            title=f"{selected_threat} Capability Assessment"
+            title="Competitor Capabilities Comparison"
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig_radar, use_container_width=True)
     
-    # Competitive positioning
-    st.subheader("📊 Competitive Positioning Matrix")
+    # Threat assessment summary
+    st.subheader("Threat Assessment Summary")
     
-    # Create positioning data
-    positioning_data = {
-        'Company': ['Alpha Corp', 'Beta Ltd', 'Gamma Inc', 'Delta Co', 'Epsilon LLC'],
-        'Innovation_Speed': [9, 5, 3, 7, 6],
-        'Market_Trust': [6, 9, 8, 7, 5],
-        'GTM_Maturity': [8, 3, 4, 3, 6]
+    threat_summary = {
+        'Stripe': "Threat = speed and sophistication. Will out-iterate without signal-based launch timing.",
+        'Adyen': "Threat = trust and regulation. Will dominate regulated verticals without compliance-focused GTM.",
+        'Checkout.com': "Threat = operational efficiency. Building exact GTM machine that target company lacks.",
+        'Fiserv': "Less of a threat - slow to move, but strong at retaining once in.",
+        'Square': "SMB overlap, PLG strength. Threat increases if they go upmarket."
     }
     
-    pos_df = pd.DataFrame(positioning_data)
-    
-    fig = px.scatter(pos_df, x='Innovation_Speed', y='Market_Trust', 
-                    size='GTM_Maturity', color='Company',
-                    title="Competitive Positioning: Innovation vs Trust",
-                    labels={'Innovation_Speed': 'Innovation Speed', 'Market_Trust': 'Market Trust'})
-    
-    fig.update_layout(height=500)
-    st.plotly_chart(fig, use_container_width=True)
+    for company, assessment in threat_summary.items():
+        st.info(f"**{company}:** {assessment}")
 
-elif view_option == "Opportunities":
-    st.header("🎯 Strategic Opportunities")
+# Opportunities Page
+elif page == "Opportunities":
+    st.markdown('<div class="section-header">Strategic Opportunities</div>', unsafe_allow_html=True)
     
-    # Opportunity matrix
-    opportunities = {
-        'Opportunity': ['GTM Clarity Position', 'Regional Localization', 'Closed-Loop GTM System', 
-                       'Competitive Intelligence', 'AI-Led Enablement'],
-        'Impact': [9, 7, 8, 6, 7],
-        'Effort': [6, 8, 9, 4, 7],
-        'Timeline': ['3-6 months', '6-12 months', '9-18 months', '1-3 months', '6-12 months']
+    # Winnable rivals
+    st.subheader("Most Winnable Rivals")
+    
+    winnable_data = {
+        'Competitor': ['Checkout.com', 'Square', 'Fiserv', 'Adyen', 'Stripe'],
+        'Chance_to_Win': ['Highest', 'High', 'Medium', 'Lower', 'Low'],
+        'Reason': [
+            'Still building GTM muscle; Target can out-execute and out-coordinate',
+            'Weak in GTM systems and regulated verticals',
+            'Legacy weakness, but strong retention',
+            'Trust moat; hard to unseat in core markets',
+            'Too fast and well-coordinated — not the fight to pick yet'
+        ],
+        'Win_Score': [9, 8, 6, 4, 2]
     }
     
-    opp_df = pd.DataFrame(opportunities)
-    opp_df['Impact_Effort_Ratio'] = opp_df['Impact'] / opp_df['Effort']
+    df_winnable = pd.DataFrame(winnable_data)
     
-    col1, col2 = st.columns(2)
+    fig_winnable = px.bar(df_winnable, x='Competitor', y='Win_Score',
+                         title="Competitive Opportunity Score",
+                         color='Win_Score',
+                         color_continuous_scale='Greens')
+    fig_winnable.update_layout(showlegend=False)
+    st.plotly_chart(fig_winnable, use_container_width=True)
     
-    with col1:
-        fig = px.scatter(opp_df, x='Effort', y='Impact', 
-                        size='Impact_Effort_Ratio',
-                        color='Timeline',
-                        hover_data=['Opportunity'],
-                        title="Opportunity Impact vs Effort Matrix")
-        
-        # Add quadrant lines
-        fig.add_hline(y=7, line_dash="dash", line_color="gray", opacity=0.5)
-        fig.add_vline(x=7, line_dash="dash", line_color="gray", opacity=0.5)
-        
-        fig.update_layout(height=500)
-        st.plotly_chart(fig, use_container_width=True)
+    # Detailed opportunities
+    st.subheader("Detailed Opportunity Analysis")
     
-    with col2:
-        st.subheader("🏆 Top Opportunities")
-        
-        # Sort by impact/effort ratio
-        top_opps = opp_df.sort_values('Impact_Effort_Ratio', ascending=False)
-        
-        for i, (_, row) in enumerate(top_opps.iterrows()):
-            st.markdown(f"""
-            **{i+1}. {row['Opportunity']}**
-            - Impact: {row['Impact']}/10
-            - Effort: {row['Effort']}/10
-            - Timeline: {row['Timeline']}
-            - Ratio: {row['Impact_Effort_Ratio']:.2f}
-            """)
+    for idx, row in df_winnable.iterrows():
+        with st.expander(f"{row['Competitor']} - {row['Chance_to_Win']} Opportunity"):
+            st.write(f"**Winning Chance:** {row['Chance_to_Win']}")
+            st.write(f"**Strategy:** {row['Reason']}")
     
-    # Actionable recommendations
-    st.subheader("📋 Immediate Action Items")
+    # Cross-market opportunities
+    st.subheader("Cross-Market Opportunities")
     
-    col1, col2 = st.columns(2)
+    opportunities = [
+        "Own the 'GTM Clarity' Position - Position as fintech with fewer, smarter launches",
+        "Localize Fast Where Others Are Slow - Target key regions with weak competitor presence",
+        "Create First Closed-Loop GTM-Finance-Product System - Bridge GTM and finance tracks",
+        "Turn Competitor Hiring Into Strategic Action - Use hiring patterns for strategic advantage",
+        "Build AI-Led Enablement - Outscale with infrastructure vs headcount"
+    ]
     
-    with col1:
-        st.markdown("""
-        **Quick Wins (1-3 months):**
-        1. Implement competitive intelligence tracking
-        2. Set up GTM coordination pod (3 people)
-        3. Launch signal-led GTM risk assessment
-        4. Begin competitor movement monitoring
-        """)
+    for i, opp in enumerate(opportunities, 1):
+        st.success(f"**Opportunity {i}:** {opp}")
     
-    with col2:
-        st.markdown("""
-        **Strategic Initiatives (6-18 months):**
-        1. Build closed-loop GTM-Finance system
-        2. Develop regional GTM capabilities
-        3. Create AI-led enablement workflows
-        4. Establish GTM clarity market position
-        """)
+    # Immediate actions
+    st.subheader("Immediate Strategic Actions")
     
-    # Investment recommendations
-    st.subheader("💰 Investment Recommendations")
+    actions = [
+        "Launch signal-led GTM play into 1 regulated vertical (AML, B2B fintech)",
+        "Stand up 3-person GTM coordination pod (PMM, Enablement, RevOps-lite)",
+        "Run pre-launch risk assessment on next 2-3 feature rollouts",
+        "Deploy counter-positioning campaigns where Square expands regionally",
+        "Integrate GTM failure tracking into Finance dashboard"
+    ]
     
-    investment_data = {
-        'Investment_Area': ['GTM Operations', 'Product Marketing', 'Revenue Operations', 
-                           'Regional Expansion', 'Technology Infrastructure'],
-        'Priority': ['High', 'High', 'Medium', 'Medium', 'Low'],
-        'Investment_Range': ['$200K-400K', '$150K-300K', '$100K-200K', '$300K-500K', '$100K-300K']
-    }
-    
-    inv_df = pd.DataFrame(investment_data)
-    
-    # Style investment table
-    def highlight_priority(row):
-        if row['Priority'] == 'High':
-            return ['background-color: #ffebee'] * len(row)
-        elif row['Priority'] == 'Medium':
-            return ['background-color: #fff3e0'] * len(row)
-        else:
-            return ['background-color: #e8f5e8'] * len(row)
-    
-    styled_inv = inv_df.style.apply(highlight_priority, axis=1)
-    st.dataframe(styled_inv, use_container_width=True)
+    for i, action in enumerate(actions, 1):
+        st.info(f"**Action {i}:** {action}")
 
 # Footer
 st.markdown("---")
-st.markdown("**Dashboard created for strategic GTM analysis and competitive intelligence**")
-st.markdown("*Data sources: Competitor hiring analysis, market intelligence, strategic gap assessment*")
+st.markdown(
+    """
+    <div style='text-align: center; color: #666; font-size: 0.9rem;'>
+        GTM Hiring Intelligence Dashboard | Strategic Analysis & Competitive Intelligence
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
