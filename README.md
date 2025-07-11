@@ -3,7 +3,8 @@
  A strategic analytics dashboard that uncovers hiring trends, regional expansion, and role priorities across five global HR tech competitors. This dashboard helps sales, product, and strategy teams make better decisions by interpreting hiring data as business signals.
 
 > **Live Demo**: [Streamlit App (technical refernce)](https://competitor-hiring-analysis-nvidydztarwnskysxtaur3.streamlit.app/)
-> **Live Demo**: [Updated Streamlit App](https://competitor-hiring-analysis-g3jgwogwvzekieccsvnsk8.streamlit.app/#multiplier) 
+> **Live Demo**: [Updated Streamlit App](https://competitor-hiring-analysis-g3jgwogwvzekieccsvnsk8.streamlit.app/#multiplier)
+> Worldpay Dashboard: [Worldpay](https://competitor-hiring-analysis-ciiprgkgzpbgkhcscxvjas.streamlit.app/)
 
 ---
 
