@@ -31,7 +31,7 @@ st.markdown("""
     }
     .metric-box {
         background-color: #F8F9FA;
-        padding: 1rem;
+        padding: 3rem;
         border-radius: 0.5rem;
         border-left: 4px solid #2E4057;
         margin: 1rem 0;
