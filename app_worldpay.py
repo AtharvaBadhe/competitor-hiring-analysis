@@ -97,6 +97,7 @@ if page == "Executive Summary":
         <div class="metric-box">
             <h3>Key Finding</h3>
             <p>Target company is scaling sales aggressively but underinvesting in GTM coordination and post-sale infrastructure</p>
+            color: #191970;
         </div>
         """, unsafe_allow_html=True)
     
