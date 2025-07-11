@@ -173,7 +173,7 @@ if page == "Executive Summary":
         st.markdown("""
         <div class="metric-box competitive-landscape">
             <h3> Competitive Landscape</h3>
-            <p>Competitors are building GTM machines (Stripe, Checkout.com) or scaling regional/trust-based growth (Adyen)</p>
+            <p>Competitors are building GTM machines(Stripe,Checkout.com) or scaling regional/trust-based growth(Adyen)</p>
         </div>
         """, unsafe_allow_html=True)
     
