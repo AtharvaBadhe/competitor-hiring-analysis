@@ -18,14 +18,14 @@ st.markdown("""
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #F0F8FF;
+        color: #2E4057;
         text-align: center;
         margin-bottom: 2rem;
     }
     .section-header {
         font-size: 1.8rem;
         font-weight: bold;
-        color:#F0F8FF;
+        color: #2E4057;
         margin-top: 2rem;
         margin-bottom: 1rem;
     }
@@ -37,15 +37,15 @@ st.markdown("""
         margin: 1rem 0;
     }
     .risk-high {
-        color: #191970;
+        color: #D32F2F;
         font-weight: bold;
     }
     .risk-medium {
-        color: #191970;
+        color: #F57C00;
         font-weight: bold;
     }
     .risk-low {
-        color: #191970;
+        color: #388E3C;
         font-weight: bold;
     }
 </style>
@@ -86,101 +86,104 @@ strategic_gaps = {
     'Risk_Level': ['High', 'High', 'Medium', 'High', 'Medium', 'Medium']
 }
 
-/* Executive Summary Page Styles */
-
-/* Main container styling */
-.stApp {
-    background-color: #1a1a2e;
-}
-
-/* Section header styling */
-.section-header {
-    font-size: 2.8em;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 40px;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    padding: 20px 0;
-}
-
-/* Metric box container */
-.metric-box {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    border: 1px solid #e9ecef;
-    border-radius: 15px;
-    padding: 25px;
-    margin: 15px 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Hover effect for metric boxes */
-.metric-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-/* Metric box headers */
-.metric-box h3 {
-    color: #2c3e50;
-    font-size: 1.4em;
-    font-weight: 600;
-    margin-bottom: 18px;
-    margin-top: 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #3498db;
-    position: relative;
-}
-
-/* Metric box paragraphs */
-.metric-box p {
-    color: #495057;
-    font-size: 1.05em;
-    line-height: 1.6;
-    margin: 0;
-    text-align: left;
-    font-weight: 400;
-}
-
-/* Streamlit column adjustments */
-.stColumn {
-    padding: 0 10px;
-}
-
-/* Remove default streamlit padding */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
+# Executive Summary Page
+if page == "Executive Summary":
+    # CSS styling for the page
+    st.markdown("""
+    <style>
     .section-header {
-        font-size: 2.2em;
-        margin-bottom: 30px;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     
     .metric-box {
-        height: auto;
-        min-height: 180px;
-        padding: 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border: 1px solid #e0e6ed;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .metric-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
     
     .metric-box h3 {
-        font-size: 1.2em;
+        color: #2c3e50;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5rem;
     }
     
     .metric-box p {
-        font-size: 1em;
+        color: #34495e;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+        text-align: justify;
     }
-}
+    
+    .key-finding {
+        border-left: 4px solid #e74c3c;
+    }
+    
+    .competitive-landscape {
+        border-left: 4px solid #f39c12;
+    }
+    
+    .strategic-risk {
+        border-left: 4px solid #e67e22;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Header
+    st.markdown('<div class="section-header">Executive Summary</div>', unsafe_allow_html=True)
+    
+    # Three columns layout
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="metric-box key-finding">
+            <h3> Key Finding</h3>
+            <p>Target company is scaling sales aggressively but underinvesting in GTM coordination and post-sale infrastructure</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="metric-box competitive-landscape">
+            <h3> Competitive Landscape</h3>
+            <p>Competitors are building GTM machines (Stripe, Checkout.com) or scaling regional/trust-based growth (Adyen)</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="metric-box strategic-risk">
+            <h3> Strategic Risk</h3>
+            <p>Target company risks inefficient launches, misaligned revenue planning, and lower retention</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     # Key Metrics
     st.markdown('<div class="section-header">Key Metrics Overview</div>', unsafe_allow_html=True)
