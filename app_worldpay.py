@@ -86,36 +86,101 @@ strategic_gaps = {
     'Risk_Level': ['High', 'High', 'Medium', 'High', 'Medium', 'Medium']
 }
 
-# Executive Summary Page
-if page == "Executive Summary":
-    st.markdown('<div class="section-header">Executive Summary</div>', unsafe_allow_html=True)
+/* Executive Summary Page Styles */
+
+/* Main container styling */
+.stApp {
+    background-color: #1a1a2e;
+}
+
+/* Section header styling */
+.section-header {
+    font-size: 2.8em;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    padding: 20px 0;
+}
+
+/* Metric box container */
+.metric-box {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover effect for metric boxes */
+.metric-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Metric box headers */
+.metric-box h3 {
+    color: #2c3e50;
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 18px;
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+    position: relative;
+}
+
+/* Metric box paragraphs */
+.metric-box p {
+    color: #495057;
+    font-size: 1.05em;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+    font-weight: 400;
+}
+
+/* Streamlit column adjustments */
+.stColumn {
+    padding: 0 10px;
+}
+
+/* Remove default streamlit padding */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .section-header {
+        font-size: 2.2em;
+        margin-bottom: 30px;
+    }
     
-    col1, col2, col3 = st.columns(3)
+    .metric-box {
+        height: auto;
+        min-height: 180px;
+        padding: 20px;
+    }
     
-    with col1:
-        st.markdown("""
-        <div class="metric-box">
-            <h3>Key Finding</h3>
-            <p>Target company is scaling sales aggressively but underinvesting in GTM coordination and post-sale infrastructure</p>
-            color: #191970;
-        </div>
-        """, unsafe_allow_html=True)
+    .metric-box h3 {
+        font-size: 1.2em;
+    }
     
-    with col2:
-        st.markdown("""
-        <div class="metric-box">
-            <h3>Competitive Landscape</h3>
-            <p>Competitors are building GTM machines (Stripe, Checkout.com) or scaling regional/trust-based growth (Adyen)</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div class="metric-box">
-            <h3>Strategic Risk</h3>
-            <p>Target company risks inefficient launches, misaligned revenue planning, and lower retention</p>
-        </div>
-        """, unsafe_allow_html=True)
+    .metric-box p {
+        font-size: 1em;
+    }
+}
     
     # Key Metrics
     st.markdown('<div class="section-header">Key Metrics Overview</div>', unsafe_allow_html=True)
