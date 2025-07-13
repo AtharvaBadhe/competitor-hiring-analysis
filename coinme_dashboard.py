@@ -19,7 +19,7 @@ if not st.session_state.user_name:
     if user_name:
         st.session_state.user_name = user_name
         st.success(f"Welcome, {user_name}!")
-        st.experimental_rerun()
+        st.rerun()
     else:
         st.stop()
 else:
