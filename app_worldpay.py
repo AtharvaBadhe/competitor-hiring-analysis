@@ -3,6 +3,66 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import json
+import requests
+from requests_oauthlib import OAuth2Session
+from datetime import datetime
+
+# Load Google OAuth credentials from downloaded file
+with open("client_secret_326238244698-e9shp1586e054sfp6a70pbhvm1m6libf.apps.googleusercontent.com.json") as f:
+    config = json.load(f)["web"]
+
+client_id = config["client_id"]
+client_secret = config["client_secret"]
+redirect_uri = config["redirect_uris"][0]
+auth_url = config["auth_uri"]
+token_url = config["token_uri"]
+
+scope = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
+
+# Authenticate
+if "token" not in st.session_state:
+    if "code" in st.query_params:
+        oauth = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scope)
+        token = oauth.fetch_token(token_url, client_secret=client_secret, authorization_response=st.request.url)
+        st.session_state.token = token
+        st.experimental_rerun()
+    else:
+        oauth = OAuth2Session(client_id, redirect_uri=redirect_uri, scope=scope)
+        authorization_url, _ = oauth.authorization_url(auth_url, access_type="offline", prompt="select_account")
+        st.markdown("## Please authenticate to access the dashboard")
+        st.markdown(f"[Click here to login with Google]({authorization_url})")
+        st.stop()
+
+# Get user info
+token = st.session_state.token
+oauth = OAuth2Session(client_id, token=token)
+user_info = oauth.get("https://www.googleapis.com/oauth2/v3/userinfo").json()
+
+user_email = user_info.get("email")
+user_name = user_info.get("name")
+
+# Email check
+if user_email != "atharva.r.badhe@gamil.com":
+    st.error("Access denied. Contact admin.")
+    st.stop()
+
+st.sidebar.success(f"Logged in as: {user_name} ({user_email})")
+
+# Log viewer
+# Show viewer log
+if st.sidebar.checkbox("Show viewer list (admin only)"):
+    try:
+        df_log = pd.read_csv("viewer_log.csv", names=["Name", "Email", "Timestamp"])
+        st.subheader("Viewer Access Log")
+        st.dataframe(df_log[::-1])  # reverse order, latest first
+    except FileNotFoundError:
+        st.warning("No viewer log found yet.")
+
 
 # Page configuration
 st.set_page_config(
